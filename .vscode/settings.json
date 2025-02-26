@@ -1,0 +1,21 @@
+{
+    "python.testing.pytestArgs": [
+        "test"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.analysis.importFormat": "absolute",
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "sources.organizeImports": "explicit"
+        }
+    },
+    "isort.args": ["--max-line-length=127"],
+    "flake8.args": [
+        "--max-line-length=127"
+    ],
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportOptionalMemberAccess": "none"
+    },
+}
