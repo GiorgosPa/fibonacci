@@ -12,6 +12,8 @@ def create() -> FastAPI:
         sys.set_int_max_str_digits(50_000)
         fibonacci.compute_fibonacci_number()
         yield
+        blacklist.blacklisted_numbers.clear()
+        fibonacci.fibonacci_sequence.clear()
 
     app = FastAPI(title="Fibonacci API.",
                   lifespan=lifespan)
