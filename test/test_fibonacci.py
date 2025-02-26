@@ -43,3 +43,79 @@ def test_invalid_number_requested(client: TestClient):
 
     response = client.get("/fibonacci/100001")
     assert response.status_code == 422
+
+
+def test_get_fibonacci_list_pagination(client: TestClient):
+    """ Requesting a list of fibonacci numbers. """
+    response = client.get("/fibonacci/?page=1&limit=5")
+    assert response.status_code == 200
+    assert response.json() == {
+        "page": 1,
+        "limit": 5,
+        "fibonacci_numbers": [
+            {"index": 0, "number": 0},
+            {"index": 1, "number": 1},
+            {"index": 2, "number": 1},
+            {"index": 3, "number": 2},
+            {"index": 4, "number": 3}
+        ]
+    }
+
+    response = client.get("/fibonacci/?page=2&limit=5")
+    assert response.status_code == 200
+    assert response.json() == {
+        "page": 2,
+        "limit": 5,
+        "fibonacci_numbers": [
+            {"index": 5, "number": 5},
+            {"index": 6, "number": 8},
+            {"index": 7, "number": 13},
+            {"index": 8, "number": 21},
+            {"index": 9, "number": 34},
+        ]
+    }
+
+
+def test_invalid_pagination_requested(client: TestClient):
+    """ Requesting a page that does not exists returns 404. """
+
+    response = client.get("/fibonacci/?page=1002&limit=100")
+    assert response.status_code == 422
+
+
+def test_large_page_requested(client: TestClient):
+    """ Requesting a larger page than allowed. """
+
+    response = client.get("/fibonacci/?limit=1001")
+    assert response.status_code == 422
+
+
+def test_negative_or_zero_page_or_limit(client: TestClient):
+    """ Requesting invalid pages"""
+
+    response = client.get("/fibonacci/?limit=-1")
+    assert response.status_code == 422
+
+    response = client.get("/fibonacci/?limit=0")
+    assert response.status_code == 422
+
+    response = client.get("/fibonacci/?page=-1")
+    assert response.status_code == 422
+
+    response = client.get("/fibonacci/?page=0")
+    assert response.status_code == 422
+
+
+def test_large_page_for_large_numbers(client: TestClient):
+    """ Requesting a large page for large numbers. """
+
+    response = client.get("/fibonacci/?page=100&limit=1000")
+    assert response.status_code == 422
+
+
+def test_last_page_has_less_items(client: TestClient):
+    """ Requesting the last page has less items. """
+
+    response = client.get("/fibonacci/?page=1001&limit=100")
+    assert response.status_code == 200
+    assert len(response.json()["fibonacci_numbers"]) == 1
