@@ -6,7 +6,8 @@ from fastapi import APIRouter, Path, Query
 from fastapi.exceptions import HTTPException
 from pydantic import ValidationError
 
-from app.fibonacci import model, config
+from app import config
+from app.fibonacci import model
 from app.fibonacci.model import FibonacciList
 
 router = APIRouter(prefix="/fibonacci")

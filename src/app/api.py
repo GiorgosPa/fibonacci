@@ -3,7 +3,7 @@ import sys
 
 from fastapi import FastAPI
 
-from app import fibonacci
+from app import fibonacci, blacklist
 
 
 def create() -> FastAPI:
@@ -17,5 +17,6 @@ def create() -> FastAPI:
                   lifespan=lifespan)
 
     app.include_router(fibonacci.router)
+    app.include_router(blacklist.router)
 
     return app

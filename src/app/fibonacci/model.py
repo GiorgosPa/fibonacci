@@ -1,6 +1,6 @@
 from pydantic import BaseModel, field_validator, model_validator
 
-from app.fibonacci import config
+from app import config
 
 
 fibonacci_sequence = [0, 1, 1]
