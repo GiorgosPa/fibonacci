@@ -1,5 +1,3 @@
-import math
-
 from pydantic import BaseModel, field_validator, model_validator
 
 from app.fibonacci import config
