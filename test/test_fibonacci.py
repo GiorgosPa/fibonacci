@@ -1,6 +1,8 @@
 from fixtures.api_client import *  # noqa: F403, F401
 from fastapi.testclient import TestClient
 
+from app import config
+
 
 def test_get_fibonacci_as_number(client: TestClient):
     """ Requesting the fibonacci number as a number returns 400 if the number is too large. """
@@ -115,7 +117,7 @@ def test_large_page_for_large_numbers(client: TestClient):
 
 def test_last_page_has_less_items(client: TestClient):
     """ Requesting the last page has less items. """
-
-    response = client.get("/fibonacci/?page=1001&limit=100")
+    max_page = config.max_number // 100 + 1
+    response = client.get(f"/fibonacci/?page={max_page}&limit=100")
     assert response.status_code == 200
     assert len(response.json()["fibonacci_numbers"]) == 1
