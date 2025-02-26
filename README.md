@@ -12,7 +12,6 @@ All these limitations can be removed by off loading the server from the number g
 - [Usage](#usage)
 - [Endpoints](#endpoints)
 - [Running Tests](#running-tests)
-- [License](#license)
 
 ## Installation
 
